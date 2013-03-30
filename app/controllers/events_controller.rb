@@ -5,7 +5,6 @@ class EventsController < ApplicationController
     @events = Event.all
 
     respond_to do |format|
-      format.html # index.html.erb
       format.json { render json: @events }
     end
   end
@@ -40,18 +39,23 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.json
   def create
-    @event = Event.new(params[:event])
+    if user_signed_in?
+      @event = Event.new(params[:event])
+      @event.user_id = current_user.id
 
-    respond_to do |format|
-      if @event.save
-        format.html { redirect_to @event, notice: 'Event was successfully created.' }
-        format.json { render json: @event, status: :created, location: @event }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @event.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @event.save
+          format.html { redirect_to @event, notice: 'Event was successfully created.' }
+          format.json { render json: @event, status: :created, location: @event }
+        else
+          format.html { render action: "new" }
+          format.json { render json: @event.errors, status: :unprocessable_entity }
+        end
       end
+    else
+         redirect_to new_user_session_path, notice: "You must sign in before creating an event."
     end
-  end
+   end
 
   # PUT /events/1
   # PUT /events/1.json

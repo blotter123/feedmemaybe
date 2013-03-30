@@ -10,7 +10,7 @@
       <ol class="events">
         <% @user_events.each do |evt| %>
             <li>
-              <span class="content"> <%= evt.name %> </span>
+              <a href="/events/<%=   evt.id %>"><span class="user_event_content"> <%= evt.name %> </span> </a>
               </br>
              <i> <%= evt.description %>   </i>
             </li>
