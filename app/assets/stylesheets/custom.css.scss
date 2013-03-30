@@ -79,3 +79,26 @@ footer ul li {
   float: left;
   margin-left: 10px;
 }
+
+@mixin box_sizing {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+input, textarea, select, .uneditable-input {
+  border: 1px solid #bbb;
+  width: 50%;
+  padding: 10px;
+  margin-bottom: 15px;
+  @include box_sizing
+}
+
+input, textarea, select, .uneditable-input, label,#user_remember_me {
+  margin-left: 25%;
+}
+
+input {
+  height: auto !important;
+}
+
