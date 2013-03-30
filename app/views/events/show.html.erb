@@ -43,3 +43,26 @@
 
 <%= link_to 'Edit', edit_event_path(@event) %> |
 <%= link_to 'Back', events_path %>
+<%  if user_signed_in? and @event.user_id == current_user.id %>
+    <%= link_to 'Cancel Event', @event, method: :delete, data: { confirm: 'Are you sure?' } %>
+<% end %>
+
+
+<%  if user_signed_in? and Rsvp.where("event_id = ? AND user_id = ?", @event.id, current_user.id).length > 0 %>
+    <%= link_to 'Un-RSVP', Rsvp.where("event_id = ? AND user_id = ?", @event.id, current_user.id).first, method: :delete, data: { confirm: 'Are you sure?' } %>
+<%	 else  %>
+    <form accept-charset="UTF-8" action="/rsvps" class="new_rsvp" id="new_rsvp" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="QF/J31xI5Zq9Be4iRfmU+kFf8auytMS6trhMrE/QZ40=" /></div>
+
+      <div class="field" style="visibility: hidden;">
+        <label for="rsvp_user_id">User</label><br />
+        <input id="rsvp_user_id" name="rsvp[user_id]" type="number" value="<%= current_user.id.to_s %>"/>
+      </div>
+      <div class="field" style="visibility: hidden;">
+        <label for="rsvp_event_id">Event</label><br />
+        <input id="rsvp_event_id" name="rsvp[event_id]" type="number" value="<%= @event.id.to_s %>"/>
+      </div>
+      <div class="actions">
+        <input name="commit" type="submit" value="Rsvp" />
+      </div>
+    </form>
+<% end %>

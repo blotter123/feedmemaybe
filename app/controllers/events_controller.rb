@@ -1,4 +1,5 @@
 class EventsController < ApplicationController
+  before_filter :correct_user, only: :destroy
   # GET /events
   # GET /events.json
   def index
@@ -79,9 +80,53 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     @event.destroy
 
+
     respond_to do |format|
-      format.html { redirect_to events_url }
+      format.html { redirect_to root_url, notice: @event.name + " cancelled." }
       format.json { head :no_content }
     end
   end
+
+  def create_rsvp
+    @event = Event.find(params[:id])
+  if not user_signed_in?
+    redirect_to new_user_session_path, notice: "You must sign in to RSVP"
+  end
+
+    active_rsvp = Rsvp.new
+    active_rsvp.event_id = @event.id
+    active_rsvp.user_id = current_user.id
+    active_rsvp.save
+    redirect_to @event, "You have successfully RSVP'd to " + @event.name
+  end
+
+  def delete_rsvp
+    @event = Event.find(params[:id])
+    if not user_signed_in?
+      redirect_to new_user_session_path, notice: "You must sign in to un-RSVP"
+    end
+
+    active_rsvp = Rsvp.where("event_id = ? AND user_id = ?", @event.id, current_user.id).first
+    active_rsvp.destroy
+    redirect_to root_url, notice: "Successfully un-RSVP'd to" + @event.name
+
+
+
+  end
+
+  private
+
+    def correct_user
+      @event = Event.find_by_id(params[:id])
+      if not user_signed_in?
+        redirect_to new_user_session_path, notice: "You must sign in, come on."
+      end
+
+
+      if @event.user_id = current_user.id
+      if @event.nil?
+        redirect_to root_url , notice: "You can't destroy that event"
+      end
+      end
+    end
 end
