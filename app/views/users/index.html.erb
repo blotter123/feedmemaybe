@@ -2,10 +2,12 @@
 <h1>Listing users</h1>
 
 <%= will_paginate %>
-
-
 <ul class="users">
-      <%= render @users %>
+  <% @users.each do |user| %>
+      <li>
+        <%= gravatar_for user, 52 %>
+        <%= link_to user.name, user %>
+      </li>
+  <% end %>
 </ul>
-
 <%= will_paginate %>

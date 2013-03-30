@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    @users = User.paginate(page: params[:page], :per_page => 10)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -74,7 +74,7 @@ class UsersController < ApplicationController
   # DELETE /users/1.json
   def destroy
     @user = User.find(params[:id])
-    @user.destroy
+    #@user.destroy
 
     respond_to do |format|
       format.html { redirect_to users_url }
