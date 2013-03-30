@@ -1,14 +1,21 @@
 <% provide(:title, @user.name) %>
-<h1>
+<h1 xmlns="http://www.w3.org/1999/html">
   <%= gravatar_for(@user, 100) %>
   <%= @user.name %>
 </h1>
 <p id="notice"><%= notice %></p>
+<div class="butts">
+  <% if @user_events.length > 0 %>
+      <h3><%= @user.name %>'s Events </h3>
+      <ol class="events">
+        <% @user_events.each do |evt| %>
+            <li>
+              <span class="content"> <%= evt.name %> </span>
+              </br>
+             <i> <%= evt.description %>   </i>
+            </li>
+        <% end %>
+      </ol>
+  <% end %>
+</div>
 
-<p>
-
-</p>
-
-
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>

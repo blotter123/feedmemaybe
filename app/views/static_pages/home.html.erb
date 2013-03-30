@@ -2,13 +2,14 @@
 
 
 <div class="center hero-unit">
-  <h1>Welcome to Food Finder</h1>
+  <h1>Welcome to Feed Me Maybe</h1>
 
   <h2>
     This is the home page for the
-    <a href="http://railstutorial.org/"> FOOD FINDER</a> application.
+    <a href="http://railstutorial.org/"> FEED ME MAYBE</a> application.
   </h2>
-
-  <%= link_to "Sign up now!", '#', class: "btn btn-large btn-primary" %>
+  <% if not user_signed_in? %>
+    <%= link_to "Sign up now!", new_user_registration_path, class: "btn btn-large btn-primary" %>
+  <% end %>
 </div>
 
