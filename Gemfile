@@ -4,6 +4,8 @@ gem 'rails', '3.2.12'
 gem 'json', '1.7.7'
 gem 'devise'
 gem 'newrelic_rpm'
+gem 'will_paginate'
+gem 'bootstrap-will_paginate'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
